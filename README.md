@@ -1,37 +1,49 @@
-# Balanced Ketamine – Homepage
+# Balanced Ketamine – Website (Next.js)
 
-Static homepage (HTML, CSS, vanilla JS) for **Balanced Ketamine**, a ketamine infusion clinic in Overland Park, KS (Kansas City metro).
+Website for **Balanced Ketamine**, a ketamine infusion clinic in Overland Park, KS (Kansas City metro).
+Built with **Next.js 16 (App Router) + React 19 + TypeScript**, exported as a fully static site.
 Layout cloned section by section from https://ketamineinfusionkansascity.com/ with rewritten copy.
+
+## Getting started
+
+```bash
+npm install
+npm run dev        # http://localhost:3000
+npm run build      # static export → ./out (upload anywhere: Vercel, Netlify, S3, cPanel…)
+npm run start      # preview ./out locally
+npm run typecheck
+```
 
 ## Structure
 
 ```
-index.html              Homepage (header, 14 sections, footer, appointment popup, a11y tools)
-assets/css/style.css    Design tokens, components, 9 responsive breakpoints
-assets/js/main.js       Mobile nav, dropdowns, FAQ accordion, modal, form validation,
-                        YouTube click-to-load, scroll reveal, accessibility toolbar
-assets/images/          WebP images (from reference site) + favicons
-hipaa-notice/           HIPAA Notice of Privacy Practices   → /hipaa-notice/
-accessibility/          Accessibility Statement             → /accessibility/
-cookie-policy/          Cookie Policy (US)                  → /cookie-policy/
-terms-of-use/           Website Terms of Use                → /terms-of-use/
-robots.txt, sitemap.xml
+app/
+  layout.tsx             Root layout: font, header, footer, popups, consent, a11y tools
+  globals.css            Design tokens + all styles (9 breakpoints) – unchanged from the static build
+  page.tsx               Homepage (14 sections, metadata, JSON-LD)
+  hipaa-notice/          /hipaa-notice/   HIPAA Notice of Privacy Practices
+  accessibility/         /accessibility/  Accessibility Statement
+  cookie-policy/         /cookie-policy/  Cookie Policy (US)
+  terms-of-use/          /terms-of-use/   Website Terms of Use
+  sitemap.ts, robots.ts  → /sitemap.xml, /robots.txt
+components/
+  Header, Footer, SocialLinks, Icons          shared chrome
+  SiteProvider                                appointment popup + cookie-consent state
+  Modal, AppointmentForm                      accessible popup, validated form
+  ConsentBanner, ConsentPreferences, ConsentMap, Triggers (AppointmentLink, ConsentButton, ConsentStatus)
+  FaqAccordion, YouTube, A11yTools, RevealObserver, LegalPage, JsonLd
+lib/
+  site.ts                NAP, URLs, navigation menus (single source of truth)
+  schema.ts              Homepage MedicalClinic/Physician/WebSite JSON-LD
+  faq.tsx                FAQ content → accordion AND FAQPage schema (always in sync)
+  legal.tsx              Content of the four compliance pages
+public/images/           WebP images (from the reference site) + favicons
 ```
 
-## Compliance pages & cookie consent
+Static markup is rendered on the server; only interactive parts are client components
+(`'use client'`). Header and footer exist once and are shared by every page.
 
-- All four legal pages reuse the homepage header/footer verbatim and are linked from the footer's legal row
-  (plus Privacy Policy and a "Manage Cookie Consent" button) on every page.
-- Each page has visible breadcrumbs + BreadcrumbList/WebPage schema, a TL;DR summary, a table of contents and an effective date.
-- **Cookie consent** (`assets/js/main.js` §9): banner on first visit (Accept All / Necessary Only / Preferences),
-  choice stored in `localStorage` (`bk-consent`), Global Privacy Control honoured (marketing stays off).
-  The Google Map only loads after marketing consent. Load Google Tag Manager / Meta Pixel inside `loadConsented()`.
-- If the header or footer changes, update it in `index.html` **and** in the four legal pages (they are static copies).
-- The legal texts are templates written for this clinic – **have them reviewed by your attorney/compliance officer before launch.**
-
-Preview: open `index.html` in a browser. Nav links use root-relative slugs (`/about-us/` …) for inner pages that are not built yet, so they only resolve once deployed.
-
-## Section order (matches reference)
+## Section order (homepage, matches reference)
 
 1. Hero + appointment CTA
 2. Pricing card + Advance Care financing + 3-feature strip
@@ -46,37 +58,31 @@ Preview: open `index.html` in a browser. Nav links use root-relative slugs (`/ab
 11. Patient video reviews, what to expect, 5 steps to begin
 12. FAQ accordion (FAQPage schema)
 13. Get in touch
-14. Contact details + Google Map
+14. Contact details + consent-gated Google Map
 
-## Images (all marked `<!-- IMAGE (reference asset) -->` in index.html)
+## Compliance pages & cookie consent
 
-All photos, icons, the logo and the award badge come from the current site and were converted to WebP.
-Replace any of them by overwriting the file in `assets/images/` with the same name and dimensions.
+- Legal pages are linked from the footer's legal row on every page (plus Privacy Policy and "Manage Cookie Consent").
+- Each has visible breadcrumbs + BreadcrumbList/WebPage schema, a TL;DR summary, a table of contents and an effective date.
+- **Cookie consent** (`components/SiteProvider.tsx`): banner on first visit (Accept All / Necessary Only / Preferences),
+  choice stored in `localStorage` (`bk-consent`), Global Privacy Control honoured (marketing stays off).
+  The Google Map only loads after marketing consent. Add Google Tag Manager / Meta Pixel in the marked effect in `SiteProvider`.
+- The legal texts are templates written for this clinic – **have them reviewed by your attorney/compliance officer before launch.**
 
-| File | Used in |
-|---|---|
-| ketamine-logo.webp | Header logo |
-| hero-ketamine-infusion(.webp / -960.webp) | Hero background, OG image |
-| advance-care-image.webp | Financing banner |
-| migraine-icon / depression-icon / headache-icon.webp | Feature strip icons |
-| kansas-top-doctors-2023.webp | Award badge |
-| balanced-ketamine-welcome-cover.webp | What is ketamine |
-| ketamine-modern-treatment.webp | History |
-| chronic-pain / depression / ptsd / bipolar-disorder / migraine / inflammatory-pain.webp | Condition cards |
-| img-drRazaJafri.webp | Team |
-| free-consultation-image.webp | Appointment section |
-| depression-and-anxiety-cover.webp, risks-of-ketamine-infusions-cover.webp | CTA cards |
-| ketamine-how-it-works.webp | What to expect |
-| family-cta-bg(.webp / -960.webp) | Parallax background (CSS) |
-| icon-02.webp | Contact calendar icon |
+## Images
+
+All photos, icons, the logo and the award badge come from the current site (WebP) and are marked
+`{/* IMAGE (reference asset) */}` in the code. Replace a file in `public/images/` with the same name and dimensions.
+Images use plain `<img>` with width/height, `srcset` and lazy loading exactly as in the original build
+(the static export does not use the Next.js image optimizer).
 
 ## Before launch (TODO)
 
-- [ ] Replace placeholder domain `https://www.balancedketamine.com/` (canonical, OG/Twitter, JSON-LD, sitemap, robots).
-- [ ] Confirm NAP, hours, prices, fax number and Dr. Raza Jafri's credentials/title (schema + team caption).
-- [ ] Connect both forms (`form.js-validate`, `action="#"`) to the real form handler / CRM.
-- [ ] Move PDFs (patient packet, referral form, "what is ketamine") to the new site and update links.
-- [ ] Add inner pages to `sitemap.xml` as they are built.
+- [ ] Replace placeholder domain `https://www.balancedketamine.com` in `lib/site.ts` (canonical, OG, schema, sitemap, robots).
+- [ ] Confirm NAP, hours, prices, fax number and Dr. Raza Jafri's credentials/title (`lib/schema.ts` + team caption).
+- [ ] Connect `components/AppointmentForm.tsx` to the real form handler / CRM.
+- [ ] Move PDFs (patient packet, referral form, "what is ketamine") into `public/` and update `lib/site.ts`.
+- [ ] Build the inner pages linked from the navigation and add them to `app/sitemap.ts`.
 - [ ] Legal review of HIPAA notice, accessibility statement, cookie policy and terms; confirm Privacy Officer contact and effective date.
 - [ ] Confirm clinic physical-access details on the accessibility page (marked TODO).
-- [ ] Keep the cookie table in `/cookie-policy/` in sync with the trackers actually installed.
+- [ ] Keep the cookie table in `lib/legal.tsx` in sync with the trackers actually installed.

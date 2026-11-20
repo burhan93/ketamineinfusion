@@ -1,5 +1,5 @@
 /* ==========================================================================
-   Balanced Ketamine – Homepage stylesheet
+   Balanced Ketamine – global stylesheet (Next.js: imported in app/layout.tsx)
    --------------------------------------------------------------------------
    Layout reference: ketamineinfusionkansascity.com (design base 1920px)
    Breakpoints: 1920 · 1440 · 1366 · 1280 · 1024 · 768 · 425 · 375 · 320
@@ -32,7 +32,7 @@
   --c-facebook: #3b5998;
   --c-youtube: #a82400;
 
-  --ff-base: "Montserrat", Helvetica, Arial, sans-serif;
+  --ff-base: var(--font-montserrat), "Montserrat", Helvetica, Arial, sans-serif; /* set by next/font in app/layout.tsx */
 
   --container: 1300px;          /* main content row width at 1920 */
   --container-wide: 1450px;     /* header row width */
@@ -367,8 +367,7 @@ textarea.form__input { min-height: 160px; resize: vertical; }
 .parallax {
   position: relative; display: grid; place-items: center; min-height: 340px; padding: 60px 0; overflow: hidden;
   background-color: #6b5a52; background-size: cover; background-position: center; background-attachment: fixed;
-  background-image: image-set(url("../images/family-cta-bg.webp") type("image/webp"));
-  background-image: url("../images/family-cta-bg.webp");
+  background-image: url("/images/family-cta-bg.webp");
 }
 .parallax::before { content: ""; position: absolute; inset: 0; background: rgba(0, 0, 0, .35); }
 .parallax p { position: relative; max-width: 900px; margin: 0 auto; font-size: 30px; font-weight: 500; line-height: 40px; color: var(--c-white); text-align: center; }
@@ -598,7 +597,7 @@ html.a11y-readable body, html.a11y-readable button, html.a11y-readable input { f
   .appointment__form-col { justify-content: center; padding: 48px 0; }
   .appointment__form-wrap { width: 90%; margin: 0; padding: 0; }
   .split-cta__col .split-cta__inner { width: 90%; margin: 0 auto; }
-  .parallax { background-attachment: scroll; background-image: url("../images/family-cta-bg-960.webp"); }
+  .parallax { background-attachment: scroll; background-image: url("/images/family-cta-bg-960.webp"); }
   .steps { grid-template-columns: repeat(2, 1fr); gap: 32px 4%; }
   .step__body { border-radius: 0 0 120px 120px; }
   .contact-split__info { justify-content: center; }
