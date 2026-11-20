@@ -1,0 +1,7 @@
+# robots.txt – Balanced Ketamine
+# TODO: replace placeholder domain before launch
+User-agent: *
+Allow: /
+Disallow: /cgi-bin/
+
+Sitemap: https://www.balancedketamine.com/sitemap.xml
