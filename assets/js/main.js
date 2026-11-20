@@ -8,6 +8,7 @@
    6. Scroll reveal animations
    7. Accessibility toolbar
    8. Footer year
+   9. Cookie consent (banner, preferences, GPC, consent-gated map)
    ========================================================================== */
 (function () {
   'use strict';
@@ -108,7 +109,7 @@
     lastFocus = document.activeElement;
     modal.hidden = false;
     document.body.style.overflow = 'hidden';
-    const first = $('input', modal);
+    const first = $('input:not([disabled]), button', modal);
     if (first) first.focus();
     modal.addEventListener('keydown', trap);
   }
@@ -234,6 +235,104 @@
     }));
     applyA11y();
   }
+
+  /* 9. COOKIE CONSENT ----------------------------------------------------- */
+  // Categories: necessary (always on), preferences, statistics, marketing.
+  // Third-party scripts must only be loaded from loadConsented() below.
+  const CONSENT_KEY = 'bk-consent';
+  const CONSENT_VERSION = 1;
+  const gpc = navigator.globalPrivacyControl === true;   // honour Global Privacy Control
+  const banner = $('#consent-banner');
+  const consentModal = $('#consent-modal');
+  let consent = null;
+  try { consent = JSON.parse(localStorage.getItem(CONSENT_KEY)); } catch (e) { consent = null; }
+  if (consent && consent.v !== CONSENT_VERSION) consent = null;
+
+  function saveConsent(prefs) {
+    consent = {
+      v: CONSENT_VERSION,
+      preferences: !!prefs.preferences,
+      statistics: !!prefs.statistics,
+      marketing: !!prefs.marketing && !gpc,
+      date: new Date().toISOString()
+    };
+    try { localStorage.setItem(CONSENT_KEY, JSON.stringify(consent)); } catch (e) { /* storage blocked */ }
+    if (banner) banner.hidden = true;
+    syncSwitches();
+    loadConsented();
+    document.dispatchEvent(new CustomEvent('bk:consent', { detail: consent }));
+  }
+  function syncSwitches() {
+    if (!consentModal) return;
+    ['preferences', 'statistics', 'marketing'].forEach((cat) => {
+      const box = $('input[name="' + cat + '"]', consentModal);
+      if (box) box.checked = !!(consent && consent[cat]);
+    });
+    const mk = $('input[name="marketing"]', consentModal);
+    if (mk && gpc) { mk.checked = false; mk.disabled = true; }
+    const note = $('.consent-gpc', consentModal);
+    if (note) note.hidden = !gpc;
+  }
+  function loadConsented() {
+    if (!consent) return;
+    // Google Maps embeds set third-party cookies → marketing category.
+    if (consent.marketing) $$('.map[data-map-src]').forEach(loadMap);
+    // TODO (statistics): load Google Tag Manager here only when consent.statistics is true.
+    // TODO (marketing): load Meta Pixel here only when consent.marketing is true.
+  }
+  function loadMap(box) {
+    if (box.classList.contains('is-loaded')) return;
+    const iframe = document.createElement('iframe');
+    iframe.src = box.dataset.mapSrc;
+    iframe.title = box.dataset.mapTitle || 'Map';
+    iframe.loading = 'lazy';
+    iframe.referrerPolicy = 'no-referrer-when-downgrade';
+    box.appendChild(iframe);
+    box.classList.add('is-loaded');
+  }
+
+  if (banner && !consent) banner.hidden = false;
+  syncSwitches();
+  loadConsented();
+
+  const closeConsentModal = () => { if (consentModal && !consentModal.hidden) closeModal(consentModal); };
+  $$('[data-consent="accept"]').forEach((b) => b.addEventListener('click', () => {
+    saveConsent({ preferences: true, statistics: true, marketing: true });
+    closeConsentModal();
+  }));
+  $$('[data-consent="reject"]').forEach((b) => b.addEventListener('click', () => {
+    saveConsent({});
+    closeConsentModal();
+  }));
+  $$('[data-consent="save"]').forEach((b) => b.addEventListener('click', () => {
+    const val = (n) => { const i = $('input[name="' + n + '"]', consentModal); return !!(i && i.checked); };
+    saveConsent({ preferences: val('preferences'), statistics: val('statistics'), marketing: val('marketing') });
+    closeConsentModal();
+  }));
+  $$('[data-consent="manage"]').forEach((b) => b.addEventListener('click', (e) => {
+    e.preventDefault();
+    if (consentModal) { syncSwitches(); openModal(consentModal); }
+  }));
+  // "Accept marketing cookies & load map" button inside the map placeholder
+  $$('[data-consent="map"]').forEach((b) => b.addEventListener('click', () => {
+    saveConsent({
+      preferences: consent ? consent.preferences : false,
+      statistics: consent ? consent.statistics : false,
+      marketing: true
+    });
+  }));
+  // Live status line on the cookie policy page
+  const statusEl = $('[data-consent-status]');
+  function renderStatus() {
+    if (!statusEl) return;
+    statusEl.textContent = consent
+      ? 'Your current choice (saved ' + new Date(consent.date).toLocaleDateString() + '): necessary – on; preferences – ' +
+        (consent.preferences ? 'on' : 'off') + '; statistics – ' + (consent.statistics ? 'on' : 'off') +
+        '; marketing – ' + (consent.marketing ? 'on' : 'off') + '.'
+      : 'You have not made a cookie choice on this device yet.';
+  }
+  renderStatus();
+  document.addEventListener('bk:consent', renderStatus);
 
   /* 8. FOOTER YEAR -------------------------------------------------------- */
   const year = $('[data-year]');

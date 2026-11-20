@@ -786,9 +786,13 @@
           </address>
         </div>
       </div>
-      <div class="map">
-        <iframe title="Map to Balanced Ketamine, 6700 W 121st St, Overland Park, KS" loading="lazy" referrerpolicy="no-referrer-when-downgrade"
-          src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d3104.7862087072594!2d-94.6672698!3d38.906004!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x87c0eb7cf7ab1cd5%3A0xf2c3f4e4af30cc7d!2sBalanced%20Ketamine!5e0!3m2!1sen!2s!4v1634108587150!5m2!1sen!2s"></iframe>
+      <!-- Google Map loads only after marketing-cookie consent (main.js §9) -->
+      <div class="map" data-map-src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d3104.7862087072594!2d-94.6672698!3d38.906004!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x87c0eb7cf7ab1cd5%3A0xf2c3f4e4af30cc7d!2sBalanced%20Ketamine!5e0!3m2!1sen!2s!4v1634108587150!5m2!1sen!2s" data-map-title="Map to Balanced Ketamine, 6700 W 121st St, Overland Park, KS">
+        <div class="map__placeholder">
+          <p>The map is provided by Google and uses marketing cookies.</p>
+          <p><button class="btn btn--purple" type="button" data-consent="map">Accept &amp; Load Map</button></p>
+          <p><a href="https://www.google.com/maps/place/Balanced+Ketamine/@38.906004,-94.6672698,17z" target="_blank" rel="noopener">Open directions in Google Maps</a></p>
+        </div>
       </div>
     </section>
   </main>
@@ -819,7 +823,18 @@
         </ul>
       </div>
     </div>
-    <p class="site-footer__copy">© <span data-year>2026</span> Balanced Ketamine – Ketamine Infusion Kansas City. All Rights Reserved. Powered By: <a href="https://www.kbizzsolutions.com/" target="_blank" rel="noopener">K Business Solutions Inc.</a> | <a href="/privacy-policy/">Privacy Policy</a></p>
+    <!-- Legal & compliance links -->
+    <nav class="footer-legal" aria-label="Legal">
+      <ul>
+        <li><a href="/privacy-policy/">Privacy Policy</a></li>
+        <li><a href="/hipaa-notice/">HIPAA Notice of Privacy Practices</a></li>
+        <li><a href="/accessibility/">Accessibility Statement</a></li>
+        <li><a href="/cookie-policy/">Cookie Policy (US)</a></li>
+        <li><a href="/terms-of-use/">Terms of Use</a></li>
+        <li><button type="button" data-consent="manage">Manage Cookie Consent</button></li>
+      </ul>
+    </nav>
+    <p class="site-footer__copy">© <span data-year>2026</span> Balanced Ketamine – Ketamine Infusion Kansas City. All Rights Reserved. Powered By: <a href="https://www.kbizzsolutions.com/" target="_blank" rel="noopener">K Business Solutions Inc.</a></p>
   </footer>
 
   <!-- =====================================================================
@@ -857,6 +872,57 @@
         <button class="form__submit" type="submit">Request An Appointment</button>
         <p class="form__status" aria-live="polite"></p>
       </form>
+    </div>
+  </div>
+
+  <!-- =====================================================================
+       COOKIE CONSENT – banner (first visit) + preferences popup
+       Logic: assets/js/main.js §9. Policy: /cookie-policy/
+       ===================================================================== -->
+  <section class="consent-banner" id="consent-banner" aria-labelledby="consent-title" hidden>
+    <div>
+      <h2 id="consent-title">We value your privacy</h2>
+      <p>We use necessary cookies to run this site. With your permission we also use statistics and marketing cookies (such as Google Maps) to understand visits and show embedded content. You can change your choice at any time. Read our <a href="/cookie-policy/">Cookie Policy</a>.</p>
+    </div>
+    <div class="consent-actions">
+      <button class="btn btn--purple" type="button" data-consent="accept">Accept All</button>
+      <button class="btn btn--blue" type="button" data-consent="reject">Necessary Only</button>
+      <button class="btn btn--ghost" type="button" data-consent="manage">Preferences</button>
+    </div>
+  </section>
+
+  <div class="modal" id="consent-modal" hidden>
+    <div class="modal__overlay" data-modal-close></div>
+    <div class="modal__dialog" role="dialog" aria-modal="true" aria-labelledby="consent-modal-title">
+      <button class="modal__close" type="button" data-modal-close aria-label="Close cookie preferences">&times;</button>
+      <h2 id="consent-modal-title">Cookie Preferences</h2>
+      <p>Choose which cookies Balanced Ketamine may use on this device. Necessary cookies are always on because the site cannot work without them.</p>
+      <div class="consent-cat">
+        <h3>Necessary</h3>
+        <label class="switch"><input type="checkbox" checked disabled><span class="switch__track" aria-hidden="true"></span>Always on</label>
+        <p>Security, page navigation and remembering your cookie choice.</p>
+      </div>
+      <div class="consent-cat">
+        <h3 id="cc-pref">Preferences</h3>
+        <label class="switch"><input type="checkbox" name="preferences" aria-labelledby="cc-pref"><span class="switch__track" aria-hidden="true"></span>On/Off</label>
+        <p>Remembers settings you choose, such as display options.</p>
+      </div>
+      <div class="consent-cat">
+        <h3 id="cc-stat">Statistics</h3>
+        <label class="switch"><input type="checkbox" name="statistics" aria-labelledby="cc-stat"><span class="switch__track" aria-hidden="true"></span>On/Off</label>
+        <p>Anonymous visit statistics that help us improve the website.</p>
+      </div>
+      <div class="consent-cat">
+        <h3 id="cc-mkt">Marketing</h3>
+        <label class="switch"><input type="checkbox" name="marketing" aria-labelledby="cc-mkt"><span class="switch__track" aria-hidden="true"></span>On/Off</label>
+        <p>Embedded maps and advertising measurement from third parties such as Google and Meta.</p>
+      </div>
+      <p class="consent-gpc" hidden>Your browser sends a Global Privacy Control signal, so marketing cookies stay off.</p>
+      <div class="consent-modal-actions">
+        <button class="btn btn--purple" type="button" data-consent="save">Save Preferences</button>
+        <button class="btn btn--blue" type="button" data-consent="accept">Accept All</button>
+        <button class="btn btn--ghost" type="button" data-consent="reject">Necessary Only</button>
+      </div>
     </div>
   </div>
 
