@@ -14,6 +14,12 @@ npm run start      # preview ./out locally
 npm run typecheck
 ```
 
+### Deploying to Vercel
+
+`vercel.json` pins the Next.js preset, `npm ci` / `npm run build`, trailing-slash URLs,
+security headers and image caching. Import the GitHub repo at vercel.com → it builds automatically
+on every push to `main`. Node ≥ 20.9 is required (`engines` in `package.json`).
+
 ## Structure
 
 ```
