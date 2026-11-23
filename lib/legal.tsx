@@ -17,6 +17,8 @@ export type LegalPageData = {
   contactTitle: string;
   contact: ReactNode;
   sections: LegalSection[];
+  /** Effective / last-updated date; defaults to LAST_UPDATED in lib/site.ts. */
+  updated?: { iso: string; label: string };
 };
 
 export const LEGAL_PAGES = {

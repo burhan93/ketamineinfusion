@@ -27,6 +27,7 @@ app/
   layout.tsx             Root layout: font, header, footer, popups, consent, a11y tools
   globals.css            Design tokens + all styles (9 breakpoints) – unchanged from the static build
   page.tsx               Homepage (14 sections, metadata, JSON-LD)
+  privacy-policy/        /privacy-policy/ Website Privacy Policy (content: lib/privacy.tsx)
   hipaa-notice/          /hipaa-notice/   HIPAA Notice of Privacy Practices
   accessibility/         /accessibility/  Accessibility Statement
   cookie-policy/         /cookie-policy/  Cookie Policy (US)
@@ -90,6 +91,6 @@ Images use plain `<img>` with width/height, `srcset` and lazy loading exactly as
 - [ ] Connect `components/AppointmentForm.tsx` to the real form handler / CRM.
 - [ ] Move PDFs (patient packet, referral form, "what is ketamine") into `public/` and update `lib/site.ts`.
 - [ ] Build the inner pages linked from the navigation and add them to `app/sitemap.ts`.
-- [ ] Legal review of HIPAA notice, accessibility statement, cookie policy and terms; confirm Privacy Officer contact and effective date.
+- [ ] Legal review of privacy policy, HIPAA notice, accessibility statement, cookie policy and terms; confirm Privacy Officer contact and effective date.
 - [ ] Confirm clinic physical-access details on the accessibility page (marked TODO).
 - [ ] Keep the cookie table in `lib/legal.tsx` in sync with the trackers actually installed.

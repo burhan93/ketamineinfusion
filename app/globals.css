@@ -1115,3 +1115,7 @@ html.a11y-readable .form__input, html.a11y-readable .form__submit { font-family:
   .appointment__media img { flex: 1 1 auto; height: auto; min-height: 336px; }
   .appointment__info { flex: 0 0 auto; }
 }
+
+/* Long unbreakable strings (email addresses, URLs) wrap instead of widening the page */
+.prose a[href^="mailto:"], .legal-contact a[href^="mailto:"] { overflow-wrap: anywhere; }
+.prose { overflow-wrap: break-word; }

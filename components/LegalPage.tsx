@@ -12,13 +12,14 @@ import { DOMAIN, LAST_UPDATED, LAST_UPDATED_LABEL, PHONE_TEL } from '@/lib/site'
 /** Per-page metadata (title, description, canonical, Open Graph, Twitter). */
 export function legalMetadata(page: LegalPageData): Metadata {
   const path = `/${page.slug}/`;
+  const modified = page.updated?.iso ?? LAST_UPDATED;
   return {
     title: { absolute: page.title },
     description: page.description,
     alternates: { canonical: path },
     openGraph: {
       type: 'article', url: path, title: page.title, description: page.description,
-      modifiedTime: LAST_UPDATED, images: ['/images/hero-ketamine-infusion.webp'],
+      modifiedTime: modified, images: ['/images/hero-ketamine-infusion.webp'],
     },
     twitter: { card: 'summary_large_image', title: page.title, description: page.description, images: ['/images/hero-ketamine-infusion.webp'] },
   };
@@ -26,13 +27,14 @@ export function legalMetadata(page: LegalPageData): Metadata {
 
 export default function LegalPage({ page }: { page: LegalPageData }) {
   const url = `${DOMAIN}/${page.slug}/`;
+  const updated = page.updated ?? { iso: LAST_UPDATED, label: LAST_UPDATED_LABEL };
   const schema = {
     '@context': 'https://schema.org',
     '@graph': [
       {
         '@type': 'WebPage', '@id': url + '#webpage', url, name: page.title, description: page.description,
         inLanguage: 'en-US', isPartOf: { '@id': DOMAIN + '/#website' }, about: { '@id': DOMAIN + '/#clinic' },
-        publisher: { '@id': DOMAIN + '/#clinic' }, datePublished: LAST_UPDATED, dateModified: LAST_UPDATED,
+        publisher: { '@id': DOMAIN + '/#clinic' }, datePublished: updated.iso, dateModified: updated.iso,
         breadcrumb: { '@id': url + '#breadcrumb' },
       },
       {
@@ -68,7 +70,7 @@ export default function LegalPage({ page }: { page: LegalPageData }) {
           <span className="kicker">{page.kicker}</span>
           <h1 id="page-title">{page.h1}</h1>
           <p className="lead">{page.lead}</p>
-          <p className="page-meta">Effective and last updated: <time dateTime={LAST_UPDATED}>{LAST_UPDATED_LABEL}</time> · Balanced Ketamine, Overland Park, KS</p>
+          <p className="page-meta">Effective and last updated: <time dateTime={updated.iso}>{updated.label}</time> · Balanced Ketamine, Overland Park, KS</p>
         </div>
       </section>
 

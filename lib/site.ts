@@ -11,6 +11,8 @@ export const LAST_UPDATED_LABEL = 'November 20, 2026';
 export const PHONE_DISPLAY = '(913) 871-9888';
 export const PHONE_TEL = 'tel:+19138719888';
 export const FAX_DISPLAY = '(913) 871-1477';
+// Published on the current site – TODO: update if the email domain changes with the new domain.
+export const EMAIL = 'info@ketamineinfusionkansascity.com';
 export const ADDRESS_LINE = '6700 W 121st St Ste 300 A1, Overland Park, KS 66209, United States';
 export const HOURS = 'Monday-Friday 8:00am to 4:30pm';
 export const MAPS_URL = 'https://www.google.com/maps/place/Balanced+Ketamine/@38.906004,-94.6672698,17z';
