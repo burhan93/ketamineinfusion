@@ -8,8 +8,9 @@
  * Opening/closing is handled by the parent nav item (CSS :hover / :focus-within / .is-open).
  */
 import Link from 'next/link';
-import { useRef, useState, type KeyboardEvent } from 'react';
+import { useRef, useState, type CSSProperties, type KeyboardEvent } from 'react';
 import { AppointmentLink } from './Triggers';
+import { Mobile } from './Icons';
 import { PHONE_DISPLAY, PHONE_TEL, TREATMENTS } from '@/lib/site';
 
 /** Icon for items without a reference image (Results) – matches the blue condition icons. */
@@ -47,7 +48,7 @@ export default function TreatmentsMenu({ id }: { id: string }) {
         <p className="mega-menu__kicker">Ketamine Infusion Treatments</p>
         <ul className="mega-menu__list" onKeyDown={onKeyDown}>
           {TREATMENTS.map((t, i) => (
-            <li key={t.href}>
+            <li key={t.href} style={{ '--i': i } as CSSProperties}>
               <Link
                 href={t.href}
                 className={`mega-menu__link${i === active ? ' is-active' : ''}`}
@@ -66,13 +67,17 @@ export default function TreatmentsMenu({ id }: { id: string }) {
                   <span className="mega-menu__title">{t.title}</span>
                   <span className="mega-menu__summary">{t.summary}</span>
                 </span>
+                <svg className="mega-menu__arrow" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5l7 7-7 7" /></svg>
               </Link>
             </li>
           ))}
         </ul>
         <p className="mega-menu__help">
-          Not sure which treatment is right for you?{' '}
-          <a href={PHONE_TEL}>Call {PHONE_DISPLAY}</a> and our team will help you decide.
+          <span className="mega-menu__help-icon" aria-hidden="true"><Mobile /></span>
+          <span>
+            Not sure which treatment is right for you?{' '}
+            <a href={PHONE_TEL}>Call {PHONE_DISPLAY}</a> and our team will help you decide.
+          </span>
         </p>
       </div>
 
@@ -86,6 +91,8 @@ export default function TreatmentsMenu({ id }: { id: string }) {
                  alt={i === active ? t.image.alt : ''} aria-hidden={i !== active}
                  className={i === active ? 'is-active' : undefined} loading="lazy" decoding="async" />
           ))}
+          {/* caption overlay */}
+          <span className="mega-menu__badge" aria-hidden="true">Ketamine Infusion Therapy</span>
         </div>
         <div className="mega-menu__body" key={current.href}>
           <h3 className="mega-menu__heading">{current.title}</h3>
