@@ -134,7 +134,7 @@ h1, h2, h3, h4, h5 { margin: 0; padding-bottom: 10px; line-height: 1.2; color: v
 .media-frame img { width: 100%; }
 
 /* 06. HEADER -------------------------------------------------------------- */
-.site-header { position: relative; z-index: 100; background: var(--c-white); }
+.site-header { position: sticky; top: calc(-1 * var(--header-top-offset, 0px)); z-index: 120; background: var(--c-white); } /* info row scrolls away, nav stays pinned */
 .header-top { padding: 15px 0; }
 .header-top__inner {
   display: grid; align-items: center;
@@ -1367,4 +1367,41 @@ html.a11y-readable .form__input, html.a11y-readable .form__submit { font-family:
   .video__bubble:nth-child(n+2) { display: none; }
   .video__core { animation: none; }
   .video__play, .video__label, .video__core { transition: none; }
+}
+
+/* ==========================================================================
+   29. STICKY HEADER STATE + SCROLL PROGRESS BAR
+   ========================================================================== */
+/* In-page jumps (skip link, legal TOCs, #request-appointment) clear the pinned bar */
+html { scroll-padding-top: calc(var(--nav-h) + 20px); }
+@media (max-width: 1024px) { html { scroll-padding-top: 116px; } }
+
+/* Soft shadow once the nav bar is pinned */
+.nav-bar, .header-sticky { transition: box-shadow .3s ease; }
+.site-header.is-stuck .nav-bar { box-shadow: 0 10px 24px -12px rgba(30, 0, 50, .45); }
+@media (max-width: 1024px) {
+  .site-header.is-stuck .nav-bar { box-shadow: none; }
+  .site-header.is-stuck .header-sticky { box-shadow: 0 10px 24px -12px rgba(30, 0, 50, .45); }
+}
+
+/* Progress bar along the very top of the viewport */
+.scroll-progress {
+  position: fixed; left: 0; right: 0; top: 0; z-index: 300; height: 4px; pointer-events: none;
+  background: rgba(87, 0, 141, .12);
+}
+.scroll-progress[data-empty] { display: none; }
+.scroll-progress__bar {
+  height: 100%; width: 100%; transform: scaleX(0); transform-origin: left center;
+  background: linear-gradient(90deg, var(--c-purple) 0%, #8b2fd0 50%, var(--c-blue) 100%);
+  box-shadow: 0 0 10px rgba(20, 183, 248, .55);
+  border-radius: 0 4px 4px 0; will-change: transform;
+}
+
+/* Touch screens: no "sticky hover" colour after a tap (keyboard focus still shows the slide) */
+@media (hover: none) {
+  .btn:hover:not(:focus-visible)::before,
+  .nav-cta:hover:not(:focus-visible)::before,
+  .form__submit:hover:not(:focus-visible)::before,
+  .mobile-actions a:hover:not(:focus-visible)::before { transform: scaleX(0); }
+  .btn--ghost:hover:not(:focus-visible) { color: var(--c-purple); }
 }

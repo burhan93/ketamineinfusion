@@ -10,6 +10,7 @@ import A11yTools from '@/components/A11yTools';
 import Footer from '@/components/Footer';
 import Header from '@/components/Header';
 import RevealObserver from '@/components/RevealObserver';
+import ScrollProgress from '@/components/ScrollProgress';
 import SiteProvider from '@/components/SiteProvider';
 import { DOMAIN, SITE_NAME } from '@/lib/site';
 
@@ -47,6 +48,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
       </head>
       <body>
         <a className="skip-link" href="#main">Skip to main content</a>
+        <ScrollProgress />
         <SiteProvider>
           <Header />
           <main id="main">{children}</main>

@@ -3,6 +3,7 @@
  * HEADER (shared across all pages) – port of the static header + main.js §1.
  * Desktop: info bar + purple nav bar with hover/focus dropdowns.
  * ≤1024px: logo + hours, sticky Book/Call bar and collapsible MENU.
+ * All widths: the info row scrolls away and the nav bar (desktop) / Book-Call + MENU (mobile) stay pinned.
  */
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
@@ -25,6 +26,7 @@ export default function Header() {
   const pathname = usePathname();
   const [navOpen, setNavOpen] = useState(false);
   const [openSub, setOpenSub] = useState<number | null>(null);
+  const [stuck, setStuck] = useState(false);   // nav bar pinned to the top (adds shadow)
   const headerTopRef = useRef<HTMLDivElement>(null);
 
   // Close menus on route change.
@@ -61,8 +63,22 @@ export default function Header() {
     return () => { window.removeEventListener('resize', set); window.removeEventListener('load', set); };
   }, []);
 
+  // "Stuck" state once the info row has scrolled away and the nav bar is pinned.
+  useEffect(() => {
+    let raf = 0;
+    const check = () => {
+      raf = 0;
+      const h = headerTopRef.current?.offsetHeight ?? 0;
+      setStuck(window.scrollY > h);
+    };
+    const onScroll = () => { if (!raf) raf = requestAnimationFrame(check); };
+    check();
+    window.addEventListener('scroll', onScroll, { passive: true });
+    return () => { cancelAnimationFrame(raf); window.removeEventListener('scroll', onScroll); };
+  }, []);
+
   return (
-    <header className="site-header">
+    <header className={`site-header${stuck ? ' is-stuck' : ''}`}>
       <div className="header-top" ref={headerTopRef}>
         <div className="container container--wide header-top__inner">
           <Link className="site-logo" href="/" aria-label="Balanced Ketamine – home">
