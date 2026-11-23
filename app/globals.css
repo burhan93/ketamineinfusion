@@ -1449,3 +1449,15 @@ html { scroll-padding-top: calc(var(--nav-h) + 20px); }
   .consent-banner .consent-actions .btn { min-height: 38px; font-size: 13.5px; }
   .consent-banner__prefs { min-height: 30px; font-size: 13px; }
 }
+
+/* Header info row: room for the pin / phone badges beside the address and phone text */
+.header-top__inner { grid-template-columns: 1fr 262px 250px 304px 92px; }
+@media (max-width: 1440px) { .header-top__inner { grid-template-columns: 1fr 250px 228px 296px 92px; } }
+@media (max-width: 1280px) { .header-top__inner { grid-template-columns: 1fr 236px 206px 286px 92px; gap: 14px; } }
+@media (max-width: 1024px) { .header-top__inner { grid-template-columns: 1fr auto; } }
+/* Phone block: label on one line, number below; column sizes to its content */
+.header-info--phone span { white-space: nowrap; }
+.header-top__inner { grid-template-columns: 1fr 262px 250px auto 92px; }
+@media (max-width: 1440px) { .header-top__inner { grid-template-columns: 1fr 250px 228px auto 92px; } }
+@media (max-width: 1280px) { .header-top__inner { grid-template-columns: 1fr 228px 200px auto 92px; gap: 14px; } .header-info--phone { font-size: 14.5px; } }
+@media (max-width: 1024px) { .header-top__inner { grid-template-columns: 1fr auto; } }

@@ -11,7 +11,7 @@ import { useEffect, useRef, useState } from 'react';
 import { AppointmentLink } from './Triggers';
 import SocialLinks from './SocialLinks';
 import TreatmentsMenu from './TreatmentsMenu';
-import { Calendar, Caret, ClockBadge, Mobile } from './Icons';
+import { Calendar, Caret, ClockBadge, Mobile, PhoneBadge, PinBadge } from './Icons';
 import { ADDRESS_LINE, HOURS, MAIN_NAV, MAPS_URL, PHONE_DISPLAY, PHONE_TEL, ext, samePath, type NavChild } from '@/lib/site';
 
 const MOBILE_MQ = '(max-width: 1024px)';
@@ -87,7 +87,10 @@ export default function Header() {
             <img src="/images/ketamine-logo.webp" width={263} height={75} alt="Balanced Ketamine logo – Comfort and Healing for Those in Need" />
           </Link>
 
-          <a className="header-info header-info--address" href={MAPS_URL} {...ext}>{ADDRESS_LINE}</a>
+          <a className="header-info header-info--address" href={MAPS_URL} {...ext}>
+            <PinBadge className="header-info__icon" />
+            <span>{ADDRESS_LINE}</span>
+          </a>
 
           <div className="header-info header-info--hours">
             <ClockBadge className="header-info__icon" />
@@ -95,6 +98,7 @@ export default function Header() {
           </div>
 
           <a className="header-info header-info--phone" href={PHONE_TEL}>
+            <PhoneBadge className="header-info__icon" />
             <span>Call To Request An Appointment<br />{PHONE_DISPLAY}</span>
           </a>
 
