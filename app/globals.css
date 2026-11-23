@@ -1204,3 +1204,84 @@ html.a11y-readable .form__input, html.a11y-readable .form__submit { font-family:
 @keyframes glass-fade { from { opacity: 0; } to { opacity: 1; } }
 /* Hold the card still while the user is pointing at or tabbing through it (stable click target) */
 .glass-tilt:hover .glass-float, .glass-tilt:focus-within .glass-float { animation-play-state: running, paused; }
+
+/* ==========================================================================
+   27. REFINEMENTS
+   a) Colour slide-in hover for all buttons   b) FAQ spacing + two columns
+   c) Image frames (1px border, 10px radius)   d) Steps fade-in
+   e) Contact/map section flush with footer
+   ========================================================================== */
+
+/* a) Buttons: a second colour slides in from the left on hover/focus, back out to the right.
+      Hover colours keep white text at ≥4.5:1 contrast. */
+.btn, .nav-cta, .form__submit, .mobile-actions a { position: relative; overflow: hidden; isolation: isolate; }
+.btn::before, .nav-cta::before, .form__submit::before, .mobile-actions a::before {
+  content: ""; position: absolute; inset: 0; z-index: -1; border-radius: inherit;
+  background: var(--btn-slide, var(--c-purple));
+  transform: scaleX(0); transform-origin: right center;
+  transition: transform .5s cubic-bezier(.65, 0, .25, 1);
+}
+.btn:hover::before, .btn:focus-visible::before,
+.nav-cta:hover::before, .nav-cta:focus-visible::before,
+.form__submit:hover::before, .form__submit:focus-visible::before,
+.mobile-actions a:hover::before, .mobile-actions a:focus-visible::before { transform: scaleX(1); transform-origin: left center; }
+.btn { transition: transform var(--transition), box-shadow var(--transition), color .35s ease; }
+
+.btn--purple, .form__submit { --btn-slide: linear-gradient(100deg, #3e0066 0%, #0b6f9e 100%); }
+.btn--blue, .nav-cta, .mobile-actions a { --btn-slide: var(--c-purple); }
+.btn--ghost { --btn-slide: var(--c-purple); }
+/* keep the base colour under the sliding layer (no instant background swap) */
+.btn--purple:hover { background: var(--c-purple); }
+.btn--blue:hover { background: var(--c-blue); }
+.nav-cta:hover { background: var(--c-blue); }
+.btn--ghost:hover { background: none; color: var(--c-white); }
+.form__submit:hover { filter: none; }
+
+/* b) FAQ: breathing room under the heading, two independent columns on wide screens */
+.faq__title { padding-bottom: 0; margin: 0 0 44px; }
+.accordion { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px 28px; align-items: start; }
+.accordion__col { display: grid; gap: 16px; align-content: start; }
+@media (max-width: 1024px) {
+  .accordion { grid-template-columns: minmax(0, 1fr); }
+  .faq__title { margin-bottom: 32px; }
+}
+
+/* c) Content images: 1px border + 10px radius
+      (logo, icons, transparent award badge and full-bleed background photos are excluded) */
+:root { --img-frame: 1px solid rgba(87, 0, 141, .18); }
+.media-frame img, .financing-link img, .cta-card img, .expect__media img {
+  border: var(--img-frame); border-radius: 10px;
+}
+.team__photo { border: var(--img-frame); border-radius: 10px; }
+.mega-menu__media { border: var(--img-frame); border-radius: 10px; }
+
+/* d) Steps to Begin: cards fade up one after another, then each number pops in */
+.js .steps .step:nth-child(2) { transition-delay: .12s; }
+.js .steps .step:nth-child(3) { transition-delay: .24s; }
+.js .steps .step:nth-child(4) { transition-delay: .36s; }
+.js .steps .step:nth-child(5) { transition-delay: .48s; }
+.js .step .step__num { opacity: 0; transform: scale(.6) translateY(12px); transition: opacity .6s ease, transform .75s cubic-bezier(.34, 1.56, .64, 1); }
+.js .step .step__body p { opacity: 0; transition: opacity .7s ease; }
+.js .step.is-visible .step__num { opacity: 1; transform: none; transition-delay: .45s; }
+.js .step.is-visible .step__body p { opacity: 1; transition-delay: .25s; }
+.js .steps .step:nth-child(2).is-visible .step__num { transition-delay: .57s; }
+.js .steps .step:nth-child(3).is-visible .step__num { transition-delay: .69s; }
+.js .steps .step:nth-child(4).is-visible .step__num { transition-delay: .81s; }
+.js .steps .step:nth-child(5).is-visible .step__num { transition-delay: .93s; }
+.js .steps .step:nth-child(2).is-visible .step__body p { transition-delay: .37s; }
+.js .steps .step:nth-child(3).is-visible .step__body p { transition-delay: .49s; }
+.js .steps .step:nth-child(4).is-visible .step__body p { transition-delay: .61s; }
+.js .steps .step:nth-child(5).is-visible .step__body p { transition-delay: .73s; }
+@media (max-width: 768px) {           /* stacked: each card reveals as you reach it, no extra wait */
+  .js .steps .step { transition-delay: 0s !important; }
+  .js .steps .step.is-visible .step__num { transition-delay: .35s !important; }
+  .js .steps .step.is-visible .step__body p { transition-delay: .15s !important; }
+}
+
+/* e) No gap between the contact map and the footer */
+.contact-split { padding-bottom: 0; }
+
+@media (prefers-reduced-motion: reduce) {
+  .btn::before, .nav-cta::before, .form__submit::before, .mobile-actions a::before { transition: none; }
+  .js .step .step__num, .js .step .step__body p { opacity: 1; transform: none; transition: none; }
+}

@@ -50,11 +50,22 @@ function Item({ index, item, open, onToggle }: { index: number; item: FaqItem; o
 
 export default function FaqAccordion({ items }: { items: FaqItem[] }) {
   const [openIndex, setOpenIndex] = useState<number | null>(0);
+  // Two independent columns (first half left, second half right) so opening an
+  // item never stretches the item beside it. Reading/tab order: left column, then right.
+  const half = Math.ceil(items.length / 2);
+  const columns = [items.slice(0, half), items.slice(half)];
   return (
     <div className="accordion" data-accordion>
-      {items.map((item, i) => (
-        <Item key={item.q} index={i} item={item} open={openIndex === i}
-              onToggle={() => setOpenIndex(openIndex === i ? null : i)} />
+      {columns.map((col, c) => (
+        <div className="accordion__col" key={c}>
+          {col.map((item, j) => {
+            const i = c * half + j;
+            return (
+              <Item key={item.q} index={i} item={item} open={openIndex === i}
+                    onToggle={() => setOpenIndex(openIndex === i ? null : i)} />
+            );
+          })}
+        </div>
       ))}
     </div>
   );

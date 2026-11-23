@@ -98,7 +98,7 @@ export const LEGAL_NAV: NavChild[] = [
   { label: 'Privacy Policy', href: '/privacy-policy/' },
   { label: 'HIPAA Notice of Privacy Practices', href: '/hipaa-notice/' },
   { label: 'Accessibility Statement', href: '/accessibility/' },
-  { label: 'Cookie Policy (US)', href: '/cookie-policy/' },
+  { label: 'Cookie Policy', href: '/cookie-policy/' },
   { label: 'Terms of Use', href: '/terms-of-use/' },
 ];
 

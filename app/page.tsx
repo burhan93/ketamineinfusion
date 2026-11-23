@@ -427,7 +427,7 @@ export default function HomePage() {
                =================================================================== */}
           <section className="section faq" aria-labelledby="faq-title">
             <div className="container">
-              <h2 className="h-section text-center row" id="faq-title" style={{ paddingBottom: '0' }}>Frequently Asked Questions</h2>
+              <h2 className="h-section text-center faq__title" id="faq-title">Frequently Asked Questions</h2>
               <FaqAccordion items={faqItems} />
             </div>
           </section>
