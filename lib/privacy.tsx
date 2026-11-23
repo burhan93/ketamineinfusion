@@ -52,7 +52,7 @@ export const PRIVACY_PAGE: LegalPageData = {
       title: 'What information do we collect?',
       body: (
         <>
-          <div className="table-wrap"><table>
+          <div className="table-wrap" tabIndex={0} role="region" aria-label="Information we collect (table)"><table>
             <thead><tr><th scope="col">Type</th><th scope="col">Examples</th><th scope="col">How we get it</th></tr></thead>
             <tbody>
               <tr><td>Contact details</td><td>Name, phone number, email address</td><td>Appointment request forms, phone calls and emails you send us</td></tr>

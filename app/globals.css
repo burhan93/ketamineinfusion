@@ -1461,3 +1461,8 @@ html { scroll-padding-top: calc(var(--nav-h) + 20px); }
 @media (max-width: 1440px) { .header-top__inner { grid-template-columns: 1fr 250px 228px auto 92px; } }
 @media (max-width: 1280px) { .header-top__inner { grid-template-columns: 1fr 228px 200px auto 92px; gap: 14px; } .header-info--phone { font-size: 14.5px; } }
 @media (max-width: 1024px) { .header-top__inner { grid-template-columns: 1fr auto; } }
+
+/* Accessibility: links inside intro paragraphs are underlined (not colour-only);
+   scrollable tables are keyboard-focusable with a visible focus ring */
+.page-head .lead a, .prose p a, .prose li a { text-decoration: underline; text-underline-offset: 3px; }
+.table-wrap:focus-visible { outline: 3px solid var(--c-blue); outline-offset: 2px; }

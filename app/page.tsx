@@ -96,24 +96,24 @@ export default function HomePage() {
             </div>
 
             <div className="container container--feature">
-              <div className="features" role="list">
-                <article className="feature reveal" role="listitem">
+              <ul className="features">
+                <li className="feature reveal">
                   {/* IMAGE (reference asset): line icon */}
                   <img src="/images/migraine-icon.webp" width="50" height="50" loading="lazy" alt="Head outline icon representing depression" />
                   <h3>Ketamine for Depression</h3>
                   <p>Depression can feel like a weight you carry everywhere. Ketamine is frequently considered after standard antidepressants fall short, and it can restore a sense of lightness and hope to everyday life. Many patients report better mood and energy far sooner than they did with conventional medication.</p>
-                </article>
-                <article className="feature reveal" role="listitem">
+                </li>
+                <li className="feature reveal">
                   <img src="/images/depression-icon.webp" width="50" height="50" loading="lazy" alt="Head with racing thoughts icon representing anxiety" />
                   <h3>Ketamine for Anxiety</h3>
                   <p>Anxiety can crowd out every other thought and make ordinary moments feel overwhelming. Ketamine takes a different route by quieting overactive brain circuits so patients feel calmer. Many say they feel less stuck in a cycle of worry and better able to enjoy life with balance and peace.</p>
-                </article>
-                <article className="feature reveal" role="listitem">
+                </li>
+                <li className="feature reveal">
                   <img src="/images/headache-icon.webp" width="50" height="50" loading="lazy" alt="Head with pain lines icon representing chronic pain" />
                   <h3>Ketamine for Chronic Pain</h3>
                   <p>Long-term pain affects your body and your emotional health alike. Ketamine can calm nerve pain and ease the stress and fatigue that come with it. For people who have tried many options without relief, it may open the door to moving, sleeping and living more comfortably again.</p>
-                </article>
-              </div>
+                </li>
+              </ul>
             </div>
           </section>
 
