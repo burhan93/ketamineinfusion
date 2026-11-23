@@ -38,6 +38,7 @@ components/
   Modal, AppointmentForm                      accessible popup, validated form
   ConsentBanner, ConsentPreferences, ConsentMap, Triggers (AppointmentLink, ConsentButton, ConsentStatus)
   FaqAccordion, YouTube, A11yTools, RevealObserver, LegalPage, JsonLd
+  TreatmentsMenu                              Treatments mega menu (content: TREATMENTS in lib/site.ts)
 lib/
   site.ts                NAP, URLs, navigation menus (single source of truth)
   schema.ts              Homepage MedicalClinic/Physician/WebSite JSON-LD

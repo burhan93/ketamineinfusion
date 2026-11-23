@@ -9,6 +9,7 @@ import { usePathname } from 'next/navigation';
 import { useEffect, useRef, useState } from 'react';
 import { AppointmentLink } from './Triggers';
 import SocialLinks from './SocialLinks';
+import TreatmentsMenu from './TreatmentsMenu';
 import { Calendar, Caret, ClockBadge, Mobile } from './Icons';
 import { ADDRESS_LINE, HOURS, MAIN_NAV, MAPS_URL, PHONE_DISPLAY, PHONE_TEL, ext, samePath, type NavChild } from '@/lib/site';
 
@@ -27,7 +28,13 @@ export default function Header() {
   const headerTopRef = useRef<HTMLDivElement>(null);
 
   // Close menus on route change.
-  useEffect(() => { setNavOpen(false); setOpenSub(null); }, [pathname]);
+  useEffect(() => {
+    setNavOpen(false);
+    setOpenSub(null);
+    // Drop focus from the clicked menu link so :focus-within doesn't keep a dropdown open.
+    const el = document.activeElement as HTMLElement | null;
+    if (el?.closest('.main-nav')) el.blur();
+  }, [pathname]);
 
   // Close dropdowns on outside click / Escape.
   useEffect(() => {
@@ -109,7 +116,7 @@ export default function Header() {
                   }
                   const toggle = () => setOpenSub(isOpen ? null : i);
                   return (
-                    <li className={`main-nav__item has-sub${isOpen ? ' is-open' : ''}`} key={item.label}>
+                    <li className={`main-nav__item has-sub${item.mega ? ' main-nav__item--mega' : ''}${isOpen ? ' is-open' : ''}`} key={item.label}>
                       {item.href ? (
                         // Parent link: navigates on desktop; on mobile, first tap opens the submenu.
                         <Link className="main-nav__link" href={item.href} aria-current={current}
@@ -119,13 +126,18 @@ export default function Header() {
                           {item.label}
                         </Link>
                       ) : (
-                        <button className="main-nav__link" type="button" aria-expanded={isOpen} onClick={toggle}>
+                        <button className="main-nav__link" type="button" aria-expanded={isOpen} onClick={toggle}
+                                aria-controls={item.mega ? 'treatments-menu' : undefined}>
                           {item.label} <Caret />
                         </button>
                       )}
-                      <ul className="sub-menu">
-                        {item.children.map((c) => <li key={c.label}><SubLink item={c} /></li>)}
-                      </ul>
+                      {item.mega ? (
+                        <TreatmentsMenu id="treatments-menu" />
+                      ) : (
+                        <ul className="sub-menu">
+                          {item.children.map((c) => <li key={c.label}><SubLink item={c} /></li>)}
+                        </ul>
+                      )}
                     </li>
                   );
                 })}

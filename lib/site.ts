@@ -34,6 +34,7 @@ export type NavItem = {
   href?: string;          // parent link (omitted → parent is a toggle button)
   external?: boolean;
   children?: NavChild[];
+  mega?: boolean;         // show as a mega menu with images + descriptions
 };
 
 /** Main navigation – order and labels match the reference site. */
@@ -48,6 +49,7 @@ export const MAIN_NAV: NavItem[] = [
   },
   {
     label: 'Treatments',
+    mega: true,   // rendered as the interactive <TreatmentsMenu> (see TREATMENTS below)
     children: [
       { label: 'Ketamine Infusion Therapy for Chronic Pain', href: '/ketamine-for-chronic-pain/' },
       { label: 'Ketamine Infusion Therapy for Depression and Anxiety', href: '/ketamine-for-depression-and-anxiety/' },
@@ -104,3 +106,68 @@ export const ext = { target: '_blank', rel: 'noopener' } as const;
 /** Compare paths regardless of trailing slash (`/hipaa-notice` vs `/hipaa-notice/`). */
 export const samePath = (a?: string | null, b?: string | null) =>
   !!a && !!b && (a.replace(/\/+$/, '') || '/') === (b.replace(/\/+$/, '') || '/');
+
+/**
+ * Treatments mega menu content.
+ * icon  = condition icon shown in the list (reference asset)
+ * image = photo shown in the preview panel (reference asset – replace with service-specific photos if available)
+ */
+export type Treatment = {
+  title: string;
+  href: string;
+  summary: string;        // one line, shown in the list
+  description: string;    // 1–2 sentences, shown in the preview panel
+  icon?: { src: string; width: number; height: number };
+  image: { src: string; width: number; height: number; alt: string };
+};
+
+export const TREATMENTS: Treatment[] = [
+  {
+    title: 'Chronic Pain',
+    href: '/ketamine-for-chronic-pain/',
+    summary: 'Relief for CRPS, neuropathy and long-term nerve pain.',
+    description: 'Low-dose IV ketamine blocks the NMDA receptors that keep pain signals amplified, helping many patients with CRPS, fibromyalgia and nerve pain when other medications have not worked.',
+    icon: { src: '/images/chronic-pain.webp', width: 65, height: 84 },
+    image: { src: '/images/ketamine-how-it-works.webp', width: 548, height: 364, alt: 'IV drip chamber during a ketamine infusion for chronic pain' },
+  },
+  {
+    title: 'Depression & Anxiety',
+    href: '/ketamine-for-depression-and-anxiety/',
+    summary: 'Fast-acting help for treatment-resistant depression and anxiety.',
+    description: 'Ketamine works on the brain’s glutamate system rather than serotonin, so many patients notice improvement within hours to days – often after several antidepressants have failed.',
+    icon: { src: '/images/depression.webp', width: 83, height: 82 },
+    image: { src: '/images/depression-and-anxiety-cover.webp', width: 550, height: 366, alt: 'Caregiver holding a patient’s hand for reassurance' },
+  },
+  {
+    title: 'PTSD',
+    href: '/ketamine-for-post-traumatic-stress-disorder/',
+    summary: 'Easing the anxiety and hyperarousal that follow trauma.',
+    description: 'By encouraging new connections between brain cells, IV ketamine can ease the intrusive memories, hypervigilance and low mood that come with post-traumatic stress disorder.',
+    icon: { src: '/images/ptsd.webp', width: 62, height: 87 },
+    image: { src: '/images/ketamine-modern-treatment.webp', width: 615, height: 502, alt: 'Balanced Ketamine physician and nurse preparing a PTSD treatment' },
+  },
+  {
+    title: 'Bipolar Disorders',
+    href: '/ketamine-for-bipolar-disorders/',
+    summary: 'Rapid support during bipolar depressive episodes.',
+    description: 'Given alongside ongoing psychiatric care, ketamine infusions may quickly lift mood and reduce suicidal thoughts during the depressive phase of bipolar disorder.',
+    icon: { src: '/images/bipolar-disorder.webp', width: 92, height: 73 },
+    image: { src: '/images/balanced-ketamine-welcome-cover.webp', width: 615, height: 450, alt: 'Clinician checking an IV ketamine infusion bag' },
+  },
+  {
+    title: 'Migraine',
+    href: '/ketamine-for-migraines/',
+    summary: 'Another option for frequent, hard-to-treat migraines.',
+    description: 'Ketamine acts on pain-processing pathways in the brain and has helped some patients with chronic or refractory migraine who found little relief from standard therapies.',
+    icon: { src: '/images/migraine.webp', width: 78, height: 90 },
+    image: { src: '/images/free-consultation-image.webp', width: 615, height: 502, alt: 'Clinician discussing migraine treatment with a patient' },
+  },
+  {
+    title: 'Results of Ketamine Infusions',
+    href: '/results-of-ketamine-infusions/',
+    summary: 'What patients can expect from a treatment series.',
+    description: 'See how quickly patients typically respond, how long the benefits can last, and how booster infusions help maintain improvement after an initial series.',
+    // no reference icon for this item – an inline SVG is used instead
+    image: { src: '/images/risks-of-ketamine-infusions-cover.webp', width: 630, height: 420, alt: 'Man raising his arms in an open field, feeling relief' },
+  },
+];
