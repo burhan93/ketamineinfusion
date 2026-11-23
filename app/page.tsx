@@ -258,7 +258,8 @@ export default function HomePage() {
               <div className="appointment__form-wrap">
                 <h2 className="appointment__title" id="appt-title">Request An Appointment</h2>
                 {/* TODO: connect AppointmentForm to the form handler/CRM endpoint */}
-                <AppointmentForm idPrefix="appt" messagePlaceholder="Please do not include protected health information (PHI) or other confidential details. I understand that submitting this request does not create a physician–patient relationship." />
+                <AppointmentForm idPrefix="appt" variant="card"
+                  messageHint="Please don’t include medical details or other confidential information – we’ll discuss those with you privately by phone." />
               </div>
             </div>
             <div className="appointment__media">

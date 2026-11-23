@@ -88,9 +88,9 @@ export default function SiteProvider({ children }: { children: ReactNode }) {
              labelledBy="modal-title" closeLabel="Close appointment form">
         <h2 id="modal-title">Request An Appointment</h2>
         <p>Send us your details and our team will call you back during office hours (Mon–Fri, 8:00am–4:30pm). Prefer to talk now? Call <a href={PHONE_TEL}>{PHONE_DISPLAY}</a>.</p>
-        <AppointmentForm idPrefix="m" variant="light"
-          messagePlaceholder="Please do not include protected health information (PHI). Submitting this request does not create a physician–patient relationship."
-          messageStyle={{ minHeight: '120px' }} />
+        <AppointmentForm idPrefix="m" variant="plain"
+          messageHint="Please don’t include medical details – we’ll discuss those with you privately by phone."
+          messageStyle={{ minHeight: '110px' }} />
       </Modal>
 
       {/* COOKIE CONSENT – banner (first visit) + preferences popup. Policy: /cookie-policy/ */}

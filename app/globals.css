@@ -326,30 +326,7 @@ h1, h2, h3, h4, h5 { margin: 0; padding-bottom: 10px; line-height: 1.2; color: v
 .info-list li { display: flex; align-items: center; gap: 12px; font-size: 20px; font-weight: 700; line-height: 1.3; }
 .info-list svg { flex: 0 0 32px; width: 32px; height: 32px; fill: var(--c-white); }
 
-/* Shared form styles (inline section + modal) */
-.form { display: grid; gap: 12px; }
-.form__field { position: relative; }
-.form__input {
-  width: 100%; min-height: 48px; padding: 12px 16px; font-size: 14px; line-height: 1.5;
-  background: var(--c-white); border: 2px solid transparent; border-radius: 0; color: var(--c-text);
-}
-.form__input::placeholder { color: #333; opacity: 1; }
-.form__input:focus { outline: none; border-color: var(--c-blue); }
-textarea.form__input { min-height: 160px; resize: vertical; }
-.form__field.has-error .form__input { border-color: #ff4d4d; }
-.form__error { display: none; margin-top: 4px; font-size: 13px; font-weight: 600; color: #ffd2d2; }
-.form--light .form__error { color: #c00; }
-.form__field.has-error .form__error { display: block; }
-.form__submit {
-  justify-self: start; min-height: 44px; padding: 10px 22px; border: 0; border-radius: 0;
-  background: var(--c-blue); color: var(--c-white); font-size: 14px; letter-spacing: 1px; text-transform: uppercase;
-  transition: background-color var(--transition);
-}
-.form__submit:hover { background: var(--c-blue-dark); }
-.form__status { margin: 4px 0 0; font-size: 15px; font-weight: 600; color: var(--c-white); }
-.form--light .form__status { color: var(--c-purple); }
-.form--light .form__input { border-color: #ccc; }
-.form--light .form__input:focus { border-color: var(--c-blue); }
+/* Form field styles: see section 25 (APPOINTMENT FORM) */
 
 /* 14. CTA BLOCKS ---------------------------------------------------------- */
 .cta-cards { display: grid; grid-template-columns: 1fr 1fr; gap: 0 6%; }
@@ -977,36 +954,164 @@ html.a11y-readable body, html.a11y-readable button, html.a11y-readable input { f
 }
 
 /* ==========================================================================
-   25. APPOINTMENT FORM – "How did you hear about us?" + consent
+   25. APPOINTMENT FORM (components/AppointmentForm.tsx)
+   Elegant but easy to read for all ages:
+   - visible labels, 17px field text, 54px+ touch targets
+   - WCAG AA contrast for text (≥4.5:1) and field borders (≥3:1)
+   - errors use icon + text + colour; strong focus ring
    ========================================================================== */
-.form__select {
-  appearance: none; -webkit-appearance: none; cursor: pointer; padding-right: 46px;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M6 9l6 6 6-6' fill='none' stroke='%2357008d' stroke-width='2.4' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
-  background-repeat: no-repeat; background-position: right 16px center; background-size: 18px;
+:root {
+  --f-radius: 12px;
+  --f-border: #857e95;          /* 3.9:1 on white – visible field outline */
+  --f-label: #231c36;
+  --f-text: #1d1830;
+  --f-hint: #565069;            /* 7:1 */
+  --f-placeholder: #716a84;     /* 5.2:1 */
+  --f-error: #b42318;           /* 6.5:1 */
+  --f-error-bg: #fff6f5;
+  --f-focus-ring: 0 0 0 4px rgba(20, 183, 248, .35);
+  --f-ease: cubic-bezier(.2, .8, .2, 1);
 }
-.form__select.is-placeholder { color: #333; }
-.form__select option { color: var(--c-text); }
 
-.form__consent { position: relative; display: flex; align-items: flex-start; gap: 12px; cursor: pointer; }
-.form__consent input { position: absolute; opacity: 0; width: 22px; height: 22px; margin: 0; cursor: pointer; }
+.form { display: grid; gap: 20px; font-family: var(--ff-base); color: var(--f-text); }
+
+/* Card variant: white card on the purple homepage section */
+.form--card {
+  padding: 34px 34px 30px; background: var(--c-white); border-radius: 20px;
+  box-shadow: 0 30px 60px -28px rgba(20, 0, 40, .55), 0 2px 8px rgba(20, 0, 40, .12);
+  position: relative; overflow: hidden;
+}
+.form--card::before {                                  /* brand accent line */
+  content: ""; position: absolute; left: 0; right: 0; top: 0; height: 5px;
+  background: linear-gradient(90deg, var(--c-purple), var(--c-blue));
+}
+
+.form__intro { margin: -4px 0 -6px; font-size: 14.5px; color: var(--f-hint); }
+.form__req { color: var(--f-error); font-weight: 700; }
+
+.form__row { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 20px; }
+.form__field { position: relative; display: grid; gap: 8px; align-content: start; }
+
+.form__label { font-size: 16px; font-weight: 600; line-height: 1.35; color: var(--f-label); }
+.form__hint { margin: -2px 0 2px; font-size: 14.5px; line-height: 1.5; color: var(--f-hint); }
+
+.form__input {
+  width: 100%; min-height: 56px; padding: 14px 16px;
+  font-size: 17px; font-weight: 500; line-height: 1.4; color: var(--f-text);
+  background: var(--c-white); border: 1.5px solid var(--f-border); border-radius: var(--f-radius);
+  transition: border-color .2s ease, box-shadow .2s ease, background-color .2s ease;
+}
+.form__input::placeholder { color: var(--f-placeholder); opacity: 1; font-weight: 400; }
+.form__input:hover { border-color: var(--c-purple); }
+.form__input:focus { outline: none; border-color: var(--c-purple); box-shadow: var(--f-focus-ring); }
+textarea.form__input { min-height: 130px; resize: vertical; }
+
+.form__select {
+  appearance: none; -webkit-appearance: none; cursor: pointer; padding-right: 50px;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M6 9l6 6 6-6' fill='none' stroke='%2357008d' stroke-width='2.4' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+  background-repeat: no-repeat; background-position: right 16px center; background-size: 20px;
+}
+.form__select.is-placeholder { color: var(--f-placeholder); font-weight: 400; }
+.form__select option { color: var(--f-text); font-weight: 500; }
+
+/* Revealed "Other" field */
+.form__field--reveal { animation: form-reveal .3s var(--f-ease); }
+@keyframes form-reveal { from { opacity: 0; transform: translateY(-6px); } to { opacity: 1; transform: none; } }
+
+/* Errors: icon + text + colour */
+.form__error {
+  display: none; align-items: flex-start; gap: 6px;
+  font-size: 14.5px; font-weight: 600; line-height: 1.4; color: var(--f-error);
+}
+.form__error svg { flex: 0 0 18px; width: 18px; height: 18px; margin-top: 1px; fill: currentColor; }
+.form__field.has-error .form__error { display: flex; }
+.form__field.has-error .form__input { border-color: var(--f-error); background-color: var(--f-error-bg); }
+.form__field.has-error .form__input:focus { box-shadow: 0 0 0 4px rgba(180, 35, 24, .2); }
+
+/* Consent */
+.form__field--consent { gap: 10px; }
+.form__consent {
+  position: relative; display: flex; align-items: flex-start; gap: 14px; cursor: pointer;
+  padding: 16px 18px; border-radius: var(--f-radius);
+  background: #f8f5fc; border: 1.5px solid #e3d9ee; transition: border-color .2s ease, background-color .2s ease;
+}
+.form__consent:hover { border-color: #c9b4e0; }
+.form__consent input { position: absolute; left: 18px; top: 16px; width: 28px; height: 28px; margin: 0; opacity: 0; cursor: pointer; }
 .form__checkbox {
-  flex: 0 0 22px; position: relative; width: 22px; height: 22px; margin-top: 1px; border-radius: 5px;
-  background: var(--c-white); border: 2px solid var(--c-white); transition: background var(--transition), border-color var(--transition);
+  flex: 0 0 28px; position: relative; width: 28px; height: 28px; border-radius: 8px;
+  background: var(--c-white); border: 2px solid var(--f-border);
+  transition: background-color .2s ease, border-color .2s ease, box-shadow .2s ease;
 }
 .form__checkbox::after {                              /* check mark */
-  content: ""; position: absolute; left: 6px; top: 2px; width: 6px; height: 11px;
-  border: solid var(--c-white); border-width: 0 2.5px 2.5px 0; transform: rotate(45deg) scale(0); transition: transform .2s var(--menu-ease);
+  content: ""; position: absolute; left: 8.5px; top: 3.5px; width: 7px; height: 13px;
+  border: solid var(--c-white); border-width: 0 3px 3px 0;
+  transform: rotate(45deg) scale(0); transition: transform .2s var(--f-ease);
 }
-.form__consent input:checked + .form__checkbox { background: var(--c-blue); border-color: var(--c-blue); }
+.form__consent input:checked + .form__checkbox { background: var(--c-purple); border-color: var(--c-purple); }
 .form__consent input:checked + .form__checkbox::after { transform: rotate(45deg) scale(1); }
-.form__consent input:focus-visible + .form__checkbox { outline: 3px solid var(--c-blue); outline-offset: 2px; }
-.form__consent-text { font-size: 12.5px; line-height: 1.6; color: rgba(255, 255, 255, .92); }
-.form__consent-text a { color: var(--c-white); font-weight: 600; text-decoration: underline; text-underline-offset: 2px; }
-.form__field--consent.has-error .form__checkbox { border-color: #ff6b6b; box-shadow: 0 0 0 2px rgba(255, 107, 107, .35); }
-.form__field--consent .form__error { margin-left: 34px; }
+.form__consent input:focus-visible + .form__checkbox { box-shadow: var(--f-focus-ring); border-color: var(--c-purple); }
+.form__consent-text { font-size: 14.5px; line-height: 1.6; color: #2f2942; }
+.form__consent-text strong { color: var(--f-label); }
+.form__consent-text a { color: var(--c-purple); font-weight: 600; text-decoration: underline; text-underline-offset: 2px; }
+.form__consent-text a:hover { color: var(--c-blue-dark); }
+.form__field--consent.has-error .form__consent { border-color: var(--f-error); background: var(--f-error-bg); }
+.form__field--consent.has-error .form__checkbox { border-color: var(--f-error); }
 
-/* Light variant (popup) */
-.form--light .form__checkbox { border-color: #bbb; }
-.form--light .form__consent-text { color: #444; }
-.form--light .form__consent-text a { color: var(--c-purple); }
-.form--light .form__field--consent.has-error .form__checkbox { border-color: #c00; box-shadow: 0 0 0 2px rgba(204, 0, 0, .2); }
+/* Submit */
+.form__submit {
+  display: inline-flex; align-items: center; justify-content: center; gap: 12px;
+  width: 100%; min-height: 60px; padding: 14px 24px; margin-top: 2px;
+  font-size: 18px; font-weight: 700; letter-spacing: .2px; color: var(--c-white);
+  background: linear-gradient(135deg, var(--c-purple) 0%, #7419b0 100%);
+  border: 0; border-radius: var(--f-radius);
+  box-shadow: 0 14px 26px -14px rgba(87, 0, 141, .75);
+  transition: transform .25s var(--f-ease), box-shadow .25s ease, filter .25s ease;
+}
+.form__submit svg { width: 22px; height: 22px; fill: none; stroke: currentColor; stroke-width: 2.4; stroke-linecap: round; stroke-linejoin: round; transition: transform .25s var(--f-ease); }
+.form__submit:hover { transform: translateY(-2px); filter: brightness(1.08); box-shadow: 0 18px 30px -14px rgba(87, 0, 141, .85); }
+.form__submit:hover svg { transform: translateX(4px); }
+.form__submit:active { transform: translateY(0); }
+.form__submit:focus-visible { outline: 3px solid var(--c-blue); outline-offset: 3px; }
+
+/* Status message */
+.form__status { display: none; margin: 0; }
+.form__status.is-success, .form__status.is-error {
+  display: flex; align-items: flex-start; gap: 10px; padding: 14px 16px; border-radius: var(--f-radius);
+  font-size: 15.5px; font-weight: 600; line-height: 1.5; animation: form-reveal .3s var(--f-ease);
+}
+.form__status svg { flex: 0 0 22px; width: 22px; height: 22px; fill: currentColor; }
+.form__status.is-success { color: #05603a; background: #ecfdf3; border: 1.5px solid #9fe0bd; }
+.form__status.is-error { color: var(--f-error); background: var(--f-error-bg); border: 1.5px solid #f6c3bd; }
+
+/* Homepage section around the card */
+.appointment__form-col { padding: 64px 0 56px; }
+.appointment__title { padding-bottom: 24px; }
+
+/* Popup sizing */
+.modal__dialog .form { gap: 18px; }
+
+@media (max-width: 1024px) {
+  .appointment__form-col { padding: 44px 0; }
+}
+@media (max-width: 768px) {
+  .form--card { padding: 26px 20px 22px; border-radius: 16px; }
+  .form__consent { padding: 14px; gap: 12px; }
+  .form__consent input { left: 14px; top: 14px; }
+}
+@media (max-width: 375px) {
+  .form--card { padding: 22px 16px 20px; }
+  .form__submit { font-size: 17px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .form__input, .form__submit, .form__submit svg, .form__checkbox, .form__checkbox::after,
+  .form__field--reveal, .form__status { transition: none !important; animation: none !important; }
+}
+
+/* Accessibility toolbar "Readable Font" also applies to form fields and the button */
+html.a11y-readable .form__input, html.a11y-readable .form__submit { font-family: Arial, Helvetica, sans-serif; }
+
+/* Homepage appointment section: photo grows with the taller form card so the right column stays balanced */
+@media (min-width: 1025px) {
+  .appointment__media img { flex: 1 1 auto; height: auto; min-height: 336px; }
+  .appointment__info { flex: 0 0 auto; }
+}
