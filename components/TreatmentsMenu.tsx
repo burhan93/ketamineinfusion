@@ -98,7 +98,7 @@ export default function TreatmentsMenu({ id }: { id: string }) {
           <h3 className="mega-menu__heading">{current.title}</h3>
           <p>{current.description}</p>
           <div className="mega-menu__actions">
-            <Link className="btn btn--purple btn--caps" href={current.href} tabIndex={-1}>Learn More</Link>
+            <Link className="btn btn--purple btn--caps" href={current.href} tabIndex={-1}>{current.linkText}</Link>
             <AppointmentLink className="btn btn--blue btn--caps">Request An Appointment</AppointmentLink>
           </div>
         </div>

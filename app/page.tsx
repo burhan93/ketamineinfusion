@@ -145,7 +145,7 @@ export default function HomePage() {
                   {/* Direct answer block (≈55 words) */}
                   <p>Ketamine infusion therapy is a medical treatment in which a low, carefully controlled dose of ketamine is given through an IV over about 40 minutes. Ketamine was first used in the 1960s as an anesthetic, including for injured soldiers in the Vietnam War, and is now used at sub-anesthetic doses to treat depression, anxiety, PTSD and chronic pain.</p>
                   <div className="btn-group">
-                    <a className="btn btn--purple" href="/what-to-expect/">Read Details</a>
+                    <a className="btn btn--purple" href="/what-to-expect/">What to Expect on Infusion Day</a>
                     <a className="btn btn--blue" href="https://www.ketamineinfusionkansascity.com/wp-content/uploads/what-is-ketamine-official.pdf" target="_blank" rel="noopener">Download Our PDF</a>
                   </div>
                 </div>

@@ -118,6 +118,7 @@ export type Treatment = {
   title: string;
   href: string;
   summary: string;        // one line, shown in the list
+  linkText: string;       // descriptive button text in the preview (SEO: no generic "Learn more")
   description: string;    // 1–2 sentences, shown in the preview panel
   icon?: { src: string; width: number; height: number };
   image: { src: string; width: number; height: number; alt: string };
@@ -127,6 +128,7 @@ export const TREATMENTS: Treatment[] = [
   {
     title: 'Chronic Pain',
     href: '/ketamine-for-chronic-pain/',
+    linkText: 'Explore Chronic Pain Treatment',
     summary: 'Relief for CRPS, neuropathy and long-term nerve pain.',
     description: 'Low-dose IV ketamine blocks the NMDA receptors that keep pain signals amplified, helping many patients with CRPS, fibromyalgia and nerve pain when other medications have not worked.',
     icon: { src: '/images/chronic-pain.webp', width: 65, height: 84 },
@@ -135,6 +137,7 @@ export const TREATMENTS: Treatment[] = [
   {
     title: 'Depression & Anxiety',
     href: '/ketamine-for-depression-and-anxiety/',
+    linkText: 'Explore Depression & Anxiety Treatment',
     summary: 'Fast-acting help for treatment-resistant depression and anxiety.',
     description: 'Ketamine works on the brain’s glutamate system rather than serotonin, so many patients notice improvement within hours to days – often after several antidepressants have failed.',
     icon: { src: '/images/depression.webp', width: 83, height: 82 },
@@ -143,6 +146,7 @@ export const TREATMENTS: Treatment[] = [
   {
     title: 'PTSD',
     href: '/ketamine-for-post-traumatic-stress-disorder/',
+    linkText: 'Explore PTSD Treatment',
     summary: 'Easing the anxiety and hyperarousal that follow trauma.',
     description: 'By encouraging new connections between brain cells, IV ketamine can ease the intrusive memories, hypervigilance and low mood that come with post-traumatic stress disorder.',
     icon: { src: '/images/ptsd.webp', width: 62, height: 87 },
@@ -151,6 +155,7 @@ export const TREATMENTS: Treatment[] = [
   {
     title: 'Bipolar Disorders',
     href: '/ketamine-for-bipolar-disorders/',
+    linkText: 'Explore Bipolar Disorder Treatment',
     summary: 'Rapid support during bipolar depressive episodes.',
     description: 'Given alongside ongoing psychiatric care, ketamine infusions may quickly lift mood and reduce suicidal thoughts during the depressive phase of bipolar disorder.',
     icon: { src: '/images/bipolar-disorder.webp', width: 92, height: 73 },
@@ -159,6 +164,7 @@ export const TREATMENTS: Treatment[] = [
   {
     title: 'Migraine',
     href: '/ketamine-for-migraines/',
+    linkText: 'Explore Migraine Treatment',
     summary: 'Another option for frequent, hard-to-treat migraines.',
     description: 'Ketamine acts on pain-processing pathways in the brain and has helped some patients with chronic or refractory migraine who found little relief from standard therapies.',
     icon: { src: '/images/migraine.webp', width: 78, height: 90 },
@@ -167,6 +173,7 @@ export const TREATMENTS: Treatment[] = [
   {
     title: 'Results of Ketamine Infusions',
     href: '/results-of-ketamine-infusions/',
+    linkText: 'See Patient Results',
     summary: 'What patients can expect from a treatment series.',
     description: 'See how quickly patients typically respond, how long the benefits can last, and how booster infusions help maintain improvement after an initial series.',
     // no reference icon for this item – an inline SVG is used instead
