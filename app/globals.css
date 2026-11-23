@@ -1466,3 +1466,26 @@ html { scroll-padding-top: calc(var(--nav-h) + 20px); }
    scrollable tables are keyboard-focusable with a visible focus ring */
 .page-head .lead a, .prose p a, .prose li a { text-decoration: underline; text-underline-offset: 3px; }
 .table-wrap:focus-visible { outline: 3px solid var(--c-blue); outline-offset: 2px; }
+
+/* ==========================================================================
+   31. ACCESSIBLE BRAND BLUE (WCAG AA colour contrast)
+   Light brand blue #14b7f8 has only ~2.3:1 contrast with white, so a deep brand
+   blue is used for text and for any surface that carries white text.
+   #0a6f9e: 5.55:1 on white, 5.0:1 on #f3f3f3 (passes AA for all text sizes).
+   The light blue remains for icons, borders, underlines, rings and decoration.
+   ========================================================================== */
+:root { --c-blue-deep: #0a6f9e; }
+
+/* Blue text */
+.kicker, .h-blue, .condition-card h3, .prose h3, .legal-toc a::before { color: var(--c-blue-deep); }
+a:hover, .form__consent-text a:hover, .consent-banner__prefs:hover, .mega-menu__help a:hover { color: var(--c-blue-deep); }
+
+/* Surfaces with white text */
+.btn--blue, .btn--blue:hover,
+.nav-cta, .nav-cta:hover,
+.mobile-actions a,
+.appointment__info,
+.split-cta__col--blue,
+.legal-contact { background: var(--c-blue-deep); }
+.step__title, .step__num span { background: var(--c-blue-deep); }
+.step:nth-child(even) .step__title, .step:nth-child(even) .step__num span { background: var(--c-purple-step); }

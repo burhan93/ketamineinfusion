@@ -52,6 +52,14 @@ public/images/           WebP images (from the reference site) + favicons
 Static markup is rendered on the server; only interactive parts are client components
 (`'use client'`). Header and footer exist once and are shared by every page.
 
+## Colour & accessibility
+
+- Brand purple `#57008d`; light brand blue `#14b7f8` is used only for icons, borders, rings and decoration.
+- Text in blue and any blue surface carrying white text use **`--c-blue-deep` `#0a6f9e`** (5.55:1 on white,
+  5.0:1 on light grey) so every page passes WCAG AA colour contrast.
+- axe-core (the engine behind Lighthouse/PageSpeed accessibility) reports **0 violations** on all pages,
+  desktop and mobile, including open menus and popups.
+
 ## Section order (homepage, matches reference)
 
 1. Hero + appointment CTA
