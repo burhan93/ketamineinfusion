@@ -40,6 +40,7 @@ components/
   ConsentBanner, ConsentPreferences, ConsentMap, Triggers (AppointmentLink, ConsentButton, ConsentStatus)
   FaqAccordion, YouTube, A11yTools, RevealObserver, LegalPage, JsonLd
   TreatmentsMenu                              Treatments mega menu (content: TREATMENTS in lib/site.ts)
+  GlassCard (+ HeroMesh), BlurIn              homepage hero: AnimatedWebs "Clinic Liquid Glass" + "Soft Blur-In Words" (free templates)
 lib/
   site.ts                NAP, URLs, navigation menus (single source of truth)
   schema.ts              Homepage MedicalClinic/Physician/WebSite JSON-LD

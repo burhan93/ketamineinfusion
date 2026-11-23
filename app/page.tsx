@@ -7,6 +7,8 @@
 import type { Metadata } from 'next';
 import { preload } from 'react-dom';
 import AppointmentForm from '@/components/AppointmentForm';
+import BlurIn from '@/components/BlurIn';
+import GlassCard, { HeroMesh } from '@/components/GlassCard';
 import ConsentMap from '@/components/ConsentMap';
 import FaqAccordion from '@/components/FaqAccordion';
 import JsonLd from '@/components/JsonLd';
@@ -56,14 +58,21 @@ export default function HomePage() {
             <div className="hero__bg">
               {/* IMAGE (reference asset): hero banner – replace with real clinic photo if desired */}
               <img src="/images/hero-ketamine-infusion.webp" srcSet="/images/hero-ketamine-infusion-960.webp 960w, /images/hero-ketamine-infusion.webp 1920w" sizes="100vw" width="1920" height="843" fetchPriority="high" alt="Nurse starting an IV ketamine infusion for a smiling patient at Balanced Ketamine in Overland Park" />
+              {/* AnimatedWebs "Clinic Liquid Glass": slow brand mesh gradient over the photo */}
+              <HeroMesh />
             </div>
             <div className="hero__inner">
-              <div className="hero__box">
-                <h1 className="hero__title" id="hero-title">Hope, One Step Closer! Ketamine Infusion Therapy in Kansas City</h1>
+              {/* AnimatedWebs "Clinic Liquid Glass" card + "Soft Blur-In Words" headline */}
+              <GlassCard className="hero__box">
+                <h1 className="hero__title" id="hero-title">
+                  <BlurIn text="Hope, One Step Closer! Ketamine Infusion Therapy in Kansas City" delay={250} rootMargin="0px" />
+                </h1>
                 {/* TL;DR summary for readers and AI overviews */}
-                <p className="hero__text">Balanced Ketamine is a physician-led infusion clinic at 6700 W 121st St, Ste 300 A1 in Overland Park, KS. We treat depression, anxiety, PTSD and chronic pain for patients from Kansas City, MO, Leawood, Mission Hills, Prairie Village, Lenexa, Olathe, Shawnee and nearby communities.</p>
-                <AppointmentLink className="btn btn--purple">Request An Appointment</AppointmentLink>
-              </div>
+                <p className="hero__text">
+                  <BlurIn variant="body" delay={900} rootMargin="0px" text="Balanced Ketamine is a physician-led infusion clinic at 6700 W 121st St, Ste 300 A1 in Overland Park, KS. We treat depression, anxiety, PTSD and chronic pain for patients from Kansas City, MO, Leawood, Mission Hills, Prairie Village, Lenexa, Olathe, Shawnee and nearby communities." />
+                </p>
+                <div className="hero__cta"><AppointmentLink className="btn btn--purple">Request An Appointment</AppointmentLink></div>
+              </GlassCard>
             </div>
           </section>
 
