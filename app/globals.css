@@ -1489,3 +1489,49 @@ a:hover, .form__consent-text a:hover, .consent-banner__prefs:hover, .mega-menu__
 .legal-contact { background: var(--c-blue-deep); }
 .step__title, .step__num span { background: var(--c-blue-deep); }
 .step:nth-child(even) .step__title, .step:nth-child(even) .step__num span { background: var(--c-purple-step); }
+
+/* ==========================================================================
+   32. COMPACT HERO (height reduced ~40%)
+   Desktop: 918 → 551px at 1920, 713 → ~428px at 1440, 683 → ~410px at 1280.
+   The glass card is wider and more compact so the same copy fits.
+   Mobile/tablet: photo 40% shorter, tighter spacing.
+   ========================================================================== */
+@media (min-width: 1025px) {
+  .hero { min-height: clamp(380px, 28.7vw, 551px); padding: 24px 0; }
+  .hero__inner { padding: 0; }
+  .hero__bg img { object-position: center 38%; }   /* keep faces in frame in the shorter crop */
+  .glass-tilt { width: 58%; }
+  .glass-card.hero__box { padding: 30px 36px 28px; border-radius: 22px; }
+  .hero__title { font-size: 40px; padding-bottom: 8px; }
+  .glass-card .hero__text { font-size: 18px; line-height: 28px; margin-bottom: 18px; }
+}
+@media (min-width: 1025px) and (max-width: 1440px) {
+  .glass-tilt { width: 70%; }
+  .glass-card.hero__box { padding: 26px 32px 24px; }
+  .hero__title { font-size: 35px; }
+  .glass-card .hero__text { font-size: 16.5px; line-height: 26px; margin-bottom: 16px; }
+}
+@media (min-width: 1025px) and (max-width: 1280px) {
+  .glass-tilt { width: 74%; }
+  .hero__title { font-size: 33px; }
+}
+@media (max-width: 1024px) {
+  .hero__bg { aspect-ratio: 1920 / 810; }           /* photo 40% shorter than 1920/1350 */
+  .hero__bg img { object-position: 30% 35%; }
+  .hero__inner { padding: 22px 0 30px; }
+  .glass-card .hero__text { margin-bottom: 16px; }
+}
+@media (max-width: 768px) { .hero__inner { padding: 18px 0 26px; } }
+@media (min-width: 1025px) and (max-width: 1440px) { .hero { min-height: 428px; } }   /* 713 → 428 (−40%) */
+@media (min-width: 1025px) and (max-width: 1280px) { .hero { min-height: 410px; } }   /* 683 → 410 (−40%) */
+@media (min-width: 481px) and (max-width: 1024px) { .hero__bg { aspect-ratio: 1920 / 600; } }   /* tablets: same wide crop as desktop */
+/* Laptop widths: narrower card so the patient's face stays visible to its left */
+@media (min-width: 1025px) and (max-width: 1440px) {
+  .glass-tilt { width: 62%; }
+  .hero__title { font-size: 32px; }
+  .glass-card .hero__text { font-size: 16px; line-height: 25px; }
+}
+@media (min-width: 1025px) and (max-width: 1280px) {
+  .glass-tilt { width: 64%; }
+  .hero__title { font-size: 29px; }
+}
