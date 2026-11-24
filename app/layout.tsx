@@ -7,6 +7,7 @@ import { Montserrat } from 'next/font/google';
 import type { ReactNode } from 'react';
 import './globals.css';
 import A11yTools from '@/components/A11yTools';
+import BackToTop from '@/components/BackToTop';
 import Footer from '@/components/Footer';
 import Header from '@/components/Header';
 import RevealObserver from '@/components/RevealObserver';
@@ -55,6 +56,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
           <Footer />
           {/* Accessibility tools (equivalent of the reference's a11y widget) */}
           <A11yTools />
+          <BackToTop />
           <RevealObserver />
         </SiteProvider>
       </body>
